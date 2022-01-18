@@ -7,11 +7,16 @@ int main()
     cout << "How many numbers would you like to have? ";
     cin >> number;
 
-    int i = 1;
-    while(i <= number)
+    for (int i=1; i<=number;i++)
     {
-        cout << "\n" << i << endl;
-        i++;
+        if (i % 3 == 0)
+        {
+            cout <<"zip"<< "\n";
+        }
+        else {
+            cout << i << "\n";
+        }
+
     }
 
 
