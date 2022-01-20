@@ -10,11 +10,15 @@ int main()
 
     int cube = number*number*number;
 
-    if (cube/number/number == number){
+    if (number==0){
+        std::cout <<"The cube of " << number << " is " << cube <<"."<< std::endl;
+    }
+    if (cube/number/number == number && number != 0){
         std::cout <<"The cube of " << number << " is " << cube <<"."<< std::endl;
     }
     if (cube/number/number != number) {
         std::cout << "Error! The cube of " << number << " is not " << cube << "."<<std::endl;
     }
+
     return 0;
 }
