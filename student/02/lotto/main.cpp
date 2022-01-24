@@ -25,7 +25,6 @@ int NCR(int n, int r)
 
     return res;
 }
-
 int main(){
     int n;
     cout<<"Enter the total number of lottery balls: ";
