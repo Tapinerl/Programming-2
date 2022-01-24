@@ -38,7 +38,12 @@ int main(){
 
     if (n <= 0 or r <= 0)
     {
-        cout << "The number of balls must be a positive number" <<endl;
+        cout << "The number of balls must be a positive number." <<endl;
+        return 0;
+    }
+    else if(r > n)
+    {
+        cout << "The maximum number of drawn balls is the total amount of balls."<< endl;
         return 0;
     }
     int result=NCR(n,r);
