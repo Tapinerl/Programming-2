@@ -36,6 +36,9 @@ int main()
         return EXIT_FAILURE;
     }
 
+    encrypt_text(text, key);
+    std::cout << "Encrypted text: " << text << std::endl;
+
     return 0;
 }
 
