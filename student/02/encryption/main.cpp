@@ -13,6 +13,7 @@ bool check_key_lenght(const std::string &key, const std::string &error_message);
 bool check_all_lower_case(const std::string &key, const std::string &error_message);
 bool check_all_alphabet(const std::string &key, const std::string &error_message);
 
+void encrypt_text(std::string &text, const std::string &key);
 
 int main()
 {
@@ -30,6 +31,11 @@ int main()
     std::cout << "Enter the text to be encrypted: ";
     std::getline(std::cin, text);
 
+    if(!check_all_lower_case(text, ERROR_TEXT_LOWER_CASE))
+    {
+        return EXIT_FAILURE;
+    }
+
     return 0;
 }
 
@@ -46,10 +52,10 @@ bool check_key_lenght(const std::string &key, const std::string &error_message)
 
 bool check_all_lower_case(const std::string &key, const std::string &error_message)
 {
-    for(uint i = 0; i < key.length(); i++)
+    for(char c : key)
     {
-        char c = key.at(i);
-        if(c < ASCII_MIN && c > ASCII_MAX)
+
+        if(c < ASCII_MIN or c > ASCII_MAX)
         {
             std::cout << error_message << std::endl;
             return false;
@@ -69,4 +75,13 @@ bool check_all_alphabet(const std::string &key, const std::string &error_message
         }
     }
     return true;
+}
+
+void encrypt_text(std::string &text, const std::string &key)
+{
+    for(uint i = 0; i < text.length(); i++)
+    {
+        char c = text.at(i);
+        text.at(i) = key.at(c - ASCII_MIN);
+    }
 }
