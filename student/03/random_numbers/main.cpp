@@ -21,7 +21,7 @@ void produce_random_numbers(unsigned int lower, unsigned int upper)
         cout << "\nYour drawn random number is " << distr(gen) << endl;
 
         string jatko = "";
-        cout << "press q to quit or any other key to continue: ";
+        cout << "Press q to quit or any other key to continue: ";
         getline(cin, jatko);
 
         if (jatko == "q") {
