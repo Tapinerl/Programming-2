@@ -7,6 +7,27 @@ using namespace std;
 void produce_random_numbers(unsigned int lower, unsigned int upper)
 {
     // Implement your function here
+
+    unsigned int seed;
+    cout << "Enter a seed value: ";
+    cin >> seed;
+    cin.get();
+
+    default_random_engine gen(seed);
+    uniform_int_distribution<int> distr(lower, upper);
+
+
+    while (seed > 0){
+        cout << "\nYour drawn random number is " << distr(gen) << endl;
+
+        string jatko = "";
+        cout << "press q to quit or any other key to continue: ";
+        getline(cin, jatko);
+
+        if (jatko == "q") {
+            break;
+        }
+    }
 }
 
 int main()
