@@ -50,7 +50,8 @@ int main() {
                  << endl;
             continue;
 
-        } else if ( guessed_letters.find(guess) != string::npos ) {
+        }
+        else if ( guessed_letters.find(guess) != string::npos ) {
 
             cout << "You failed: you had already guessed the letter " << guess << "!"
                  << endl;
@@ -61,17 +62,22 @@ int main() {
 
         if ( secret_word.find(guess) == string::npos ) {
             cout << "Guessed letter does not include the word!" << endl;
+
         }
 
         ++guesses_used;
     }
 
-    if ( not is_word_already_guessed(secret_word, guessed_letters) ) {
+    if ( not is_word_already_guessed(secret_word, guessed_letters) )
+    {
         cout << endl
              << "Guesses expired!"
              << endl;
 
-    } else {
+    }
+
+    else
+    {
 
         cout << endl
              << "Right guess. You used " << guesses_used
@@ -90,7 +96,7 @@ void clean_screen() {
 
 bool is_word_already_guessed(string secret, string guessed) {
     // Going through all the characters in secret string.
-    for ( string::size_type index = 0; index <= secret.size(); ++index ) {
+    for ( string::size_type index = 0; index < secret.size(); ++index ) {
         // If such a character in secret string is met that is not in
         // guessed letters, it can be immediately concluded that
         // the whole secret word has not yet guessed.
