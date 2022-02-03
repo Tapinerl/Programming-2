@@ -2,8 +2,6 @@
 #define PLAYER_HH
 #include <string>
 
-int const WINNING_POINTS = 50;
-int const PENALTY_POINTS = 25;
 
 class Player
 {

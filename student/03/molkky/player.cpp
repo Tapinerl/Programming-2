@@ -11,15 +11,15 @@ Player::Player(std::string const &pelaaja):
 void Player::add_points(int points)
 {
     points_ += points;
-    if(points_ > WINNING_POINTS)
+    if(points_ > 50)
     {
-        points_ = PENALTY_POINTS;
+        points_ = 25;
     }
 }
 
 bool Player::has_won()
 {
-    return points_ == WINNING_POINTS;
+    return points_ == 50;
 }
 
 int Player::get_points()
