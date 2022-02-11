@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -65,7 +66,52 @@ void print(const Gameboard& gameboard)
     cout << "=================" << endl;
 }
 
+void startSelect(Gameboard& gameboard)
+{
+    default_random_engine rand_gen;
+
+    string getInput = "";
+
+    while (true){
+        cout << "Select start (R for random, I for input): ";
+        getline(cin, getInput);
+
+        if (getInput == "R" or getInput == "r")
+        {
+            cout << "Enter seed value: ";
+            string seed_value = "";
+            getline(cin, seed_value);
+            break;
+        }
+        if (getInput == "I" or getInput == "i")
+        {
+            cout << "Input: ";
+            string user_input_number = "";
+            getline(cin, user_input_number);
+
+           //gameboard.push_back(CustomInput);
+            break;
+        }
+
+       if (getInput != "R" or getInput != "r" or getInput != "I" or getInput != "i")
+       {
+           continue;
+       }
+    }
+}
+
+
+
 int main()
 {
+    Gameboard gameboard;
+
+    startSelect(gameboard);
+    print(gameboard);
+
+
+
+
+
     return 0;
 }
