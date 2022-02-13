@@ -6,6 +6,7 @@ using namespace std;
 
 const unsigned int BOARD_SIDE = 5;
 const unsigned char EMPTY = ' ';
+const int SIZE = 5;
 
 
 //vektori jonka sisälä on vektori
@@ -81,15 +82,46 @@ void startSelect(Gameboard& gameboard)
             cout << "Enter seed value: ";
             string seed_value = "";
             getline(cin, seed_value);
+
+            rand_gen.seed(stoi(seed_value));
+
+            std::uniform_int_distribution<int> distribution(1, 5);
+            for( int y = 0; y < SIZE; ++y ) {
+                //puskee rivin jokaisella loopilla
+                gameboard.push_back(std::vector<int>());
+                for( int x = 0; x < SIZE; ++x ) {
+                    //puskee sarakkeen jokaisella looppauksella
+                    gameboard[y].push_back(distribution(rand_gen));
+                }
+
+            }
             break;
         }
         if (getInput == "I" or getInput == "i")
         {
+            //lisää käyttäjän valitsemat luvut pelilautaan.
             cout << "Input: ";
-            string user_input_number = "";
-            getline(cin, user_input_number);
+            string value1 = "";
+            string value2 = "";
 
-           //gameboard.push_back(CustomInput);
+            for (unsigned int y = 0; y < BOARD_SIDE; y++){
+                // looppaa >> operaattoria ja puskee rivin
+                if (value1 == "q"){
+                    break;
+                }
+                gameboard.push_back(std::vector<int>());
+                for (unsigned int x = 0; x < BOARD_SIDE; x++) {
+                    cin>>value1;
+                    if(stoi_with_check(value1) == 0){
+                        break;
+                    }
+                    else {
+                        int temp = stoi_with_check(value1);
+                        gameboard[y].push_back(temp);
+                    }
+
+                }
+            }
             break;
         }
 
