@@ -67,6 +67,9 @@ void print(const Gameboard& gameboard)
     cout << "=================" << endl;
 }
 
+//Kysyy käyttäjältä pelilaudan tulostusmenetelmän
+//ja täyttää pelilaudan käyttäjän valitseman menetelmän
+// mukaan.
 void startSelect(Gameboard& gameboard)
 {
     default_random_engine rand_gen;
@@ -93,7 +96,6 @@ void startSelect(Gameboard& gameboard)
                     //puskee sarakkeen jokaisella looppauksella
                     gameboard[y].push_back(distribution(rand_gen));
                 }
-
             }
             break;
         }
@@ -102,7 +104,6 @@ void startSelect(Gameboard& gameboard)
             //lisää käyttäjän valitsemat luvut pelilautaan.
             cout << "Input: ";
             string value1 = "";
-            string value2 = "";
 
             for (unsigned int y = 0; y < BOARD_SIDE; y++){
                 // looppaa >> operaattoria ja puskee rivin
@@ -119,7 +120,6 @@ void startSelect(Gameboard& gameboard)
                         int temp = stoi_with_check(value1);
                         gameboard[y].push_back(temp);
                     }
-
                 }
             }
             break;
@@ -131,8 +131,45 @@ void startSelect(Gameboard& gameboard)
        }
     }
 }
+//poistaa pelilaudalta elementin(numeron) ja
+// tulostaa laudan uudelleen
+void remove_element(Gameboard& gameboard){
+    string getInput_x = "";
+    string getInput_y = "";
+    while (true){
+        cout << "Enter removable element (x, y): ";
+        cin >> getInput_x;
 
+        if (getInput_x == "q" or getInput_x == "Q"){
+            cout << "Quitting" << endl;
+            return;
+        }
+        else {
+            cin >> getInput_y;
+            if(stoi_with_check(getInput_x) == 0 or stoi_with_check(getInput_y) == 0){
+                cout << "Out of board" << endl;
+                continue;
+            }
+            else {
+                unsigned int y = stoi_with_check(getInput_x);
+                unsigned int x = stoi_with_check(getInput_y);
 
+                if(0 < x and x <= BOARD_SIDE and 0 < y and y <= BOARD_SIDE) {
+                    if(gameboard.at(y -1).at(x-1) == 0){
+                        cout << "Already removed" << endl;;
+                        continue;
+                    }
+                    gameboard.at(y - 1).at(x - 1) = 0;
+                    print(gameboard);
+                }
+                else{
+                    cout << "Out of board" << endl;
+                    continue;
+                }
+            }
+        }
+    }
+}
 
 int main()
 {
@@ -140,6 +177,7 @@ int main()
 
     startSelect(gameboard);
     print(gameboard);
+    remove_element(gameboard);
 
 
 
