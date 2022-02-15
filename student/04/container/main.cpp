@@ -9,47 +9,64 @@ void read_integers(std::vector< int >& ints, int count)
     for(int i = 0; i < count; ++i)
     {
         std::cin >> new_integer;
-        // TODO: Implement your solution here
         ints.push_back(new_integer);
     }
 }
 
 // TODO: Implement your solution here
-int same_values(std::vector<int>& ints){
-    if ( std::equal(ints.begin()+1,ints.end(), ints.begin()))
-        return true;
-    else
-        return false;
-}
 
-bool is_ordered_non_strict_ascending(std::vector<int>& ints){
-    for (unsigned long int i = 0; i < ints.size() - 1; i++) {
-        if(ints[i] > ints[i + 1]){
+bool same_values(std::vector< int >& ints)
+{
+    std::vector<int>::size_type koko = ints.size();
+    for(unsigned long int i=0; i < koko;++i){
+        if (ints.at(0) == ints.at(i)){
+            continue;
+        }else{
             return false;
         }
-
-    }
-    return true;
+    } return true;
 }
 
-bool is_arithmetic_series(std::vector<int>& ints){
-
-
-    int diff = ints[1]-ints[0];
-    int arith = true;
-
-    for (unsigned long int i = 0; i < ints.size()-1; i++)
-    {
-        if( ints[i+1] - ints[i] != diff)
-            arith =false;
-    }
-
-    if (arith == true) {
-        return true;
-    }
-
-
+bool is_ordered_non_strict_ascending(std::vector< int >& ints)
+{
+    std::vector<int>::size_type koko = ints.size();
+    for(unsigned long int i=0; i < koko-1;++i){
+        if (ints.at(i) <= ints.at(i+1)){
+            continue;
+        }else{
+            return false;
+        }
+    }return true;
 }
+
+bool is_arithmetic_series(std::vector< int >& ints){
+    int reference_value = ints.at(1) - ints.at(0);
+    std::vector<int>::size_type koko = ints.size();
+    for(unsigned long int i=0; i < koko-1; ++i){
+        if (ints.at(i) + reference_value == ints.at(i+1)){
+            continue;
+        }else{
+            return false;
+        }
+    }return true;
+}
+
+bool is_geometric_series(std::vector< int >& ints){
+    if (ints.at(0) == 0)
+        return false;
+
+    float reference_value = ints.at(1) / ints.at(0);
+
+    std::vector<int>::size_type koko = ints.size();
+    for(unsigned long int i=0; i < koko-1; ++i){
+        if (ints.at(i) * reference_value == ints.at(i+1) and reference_value != 0){
+            continue;
+        }else{
+            return false;
+        }
+    }return true;
+}
+
 
 int main()
 {
@@ -76,10 +93,10 @@ int main()
     else
         std::cout << "The integers do not form an arithmetic series" << std::endl;
 
-    //if(is_geometric_series(integers))
-      //  std::cout << "The integers form a geometric series" << std::endl;
-    //else
-      //  std::cout << "The integers do not form a geometric series" << std::endl;
+    if(is_geometric_series(integers))
+        std::cout << "The integers form a geometric series" << std::endl;
+    else
+        std::cout << "The integers do not form a geometric series" << std::endl;
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
