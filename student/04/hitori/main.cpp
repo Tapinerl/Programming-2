@@ -6,10 +6,9 @@ using namespace std;
 
 const unsigned int BOARD_SIDE = 5;
 const unsigned char EMPTY = ' ';
-const int SIZE = 5;
 
 
-//vektori jonka sisälä on vektori
+//vektori jonka sisällä on vektori
 using Gameboard = std::vector<std::vector<int>>;
 
 // Muuttaa annetun numeerisen merkkijonon vastaavaksi kokonaisluvuksi
@@ -70,8 +69,7 @@ void print(const Gameboard& gameboard)
 //Kysyy käyttäjältä pelilaudan tulostusmenetelmän
 //ja täyttää pelilaudan käyttäjän valitseman menetelmän
 // mukaan.
-void startSelect(Gameboard& gameboard)
-{
+bool startSelect(Gameboard& gameboard){
     default_random_engine rand_gen;
 
     string getInput = "";
@@ -89,10 +87,10 @@ void startSelect(Gameboard& gameboard)
             rand_gen.seed(stoi(seed_value));
 
             std::uniform_int_distribution<int> distribution(1, 5);
-            for( int y = 0; y < SIZE; ++y ) {
+            for(unsigned int y = 0; y < BOARD_SIDE; ++y ) {
                 //puskee rivin jokaisella loopilla
                 gameboard.push_back(std::vector<int>());
-                for( int x = 0; x < SIZE; ++x ) {
+                for(unsigned int x = 0; x < BOARD_SIDE; ++x ) {
                     //puskee sarakkeen jokaisella looppauksella
                     gameboard[y].push_back(distribution(rand_gen));
                 }
@@ -101,36 +99,81 @@ void startSelect(Gameboard& gameboard)
         }
         if (getInput == "I" or getInput == "i")
         {
-            //lisää käyttäjän valitsemat luvut pelilautaan.
             cout << "Input: ";
             string value1 = "";
 
             for (unsigned int y = 0; y < BOARD_SIDE; y++){
                 // looppaa >> operaattoria ja puskee rivin
                 if (value1 == "q"){
-                    break;
+                    return false;
                 }
                 gameboard.push_back(std::vector<int>());
                 for (unsigned int x = 0; x < BOARD_SIDE; x++) {
                     cin>>value1;
                     if(stoi_with_check(value1) == 0){
-                        break;
+                        return false;
                     }
-                    else {
-                        int temp = stoi_with_check(value1);
-                        gameboard[y].push_back(temp);
-                    }
+                    int temp = stoi_with_check(value1);
+                    gameboard[y].push_back(temp);
                 }
             }
             break;
         }
-
-       if (getInput != "R" or getInput != "r" or getInput != "I" or getInput != "i")
-       {
+       if (getInput != "R" or getInput != "r" or getInput != "I" or getInput != "i"){
            continue;
        }
     }
+    return true;
 }
+
+bool check_loss(Gameboard& gameboard, int y, int x){
+    if ((y-1 == 0 || gameboard.at(y-2).at(x-1) != 0)
+            && (y-1 == BOARD_SIDE-1 || gameboard.at(y).at(x-1) != 0)
+            && (x-1 == 0 || gameboard.at(y-1).at(x-2) != 0)
+            && (x-1 == BOARD_SIDE-1 || gameboard.at(y-1).at(x) != 0)){
+        return true;
+    }
+    return false;
+}
+
+bool check_island(Gameboard& gameboard){
+    int surr_nums;
+
+    for (unsigned int y = 0; y < BOARD_SIDE; ++y){
+        for (unsigned int x = 0; x < BOARD_SIDE; ++x){
+            if (gameboard.at(y).at(x) == 0){
+                continue;
+            }
+            surr_nums = 0;
+            if (y != 0){
+                if ( gameboard.at(y-1).at(x) != 0){
+                    surr_nums += 1;
+                }
+            }
+            if (x != 0){
+                if (gameboard.at(y).at(x-1) != 0){
+                    surr_nums += 1;
+                }
+            }
+            if (y != BOARD_SIDE - 1){
+                if(gameboard.at(y+1).at(x) != 0){
+                    surr_nums += 1;
+                }
+            }
+            if (x != BOARD_SIDE - 1){
+                if(gameboard.at(y).at(x+1) != 0){
+                    surr_nums += 1;
+                }
+            }
+            if (surr_nums == 0){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
 //poistaa pelilaudalta elementin(numeron) ja
 // tulostaa laudan uudelleen
 void remove_element(Gameboard& gameboard){
@@ -151,16 +194,32 @@ void remove_element(Gameboard& gameboard){
                 continue;
             }
             else {
-                unsigned int y = stoi_with_check(getInput_x);
-                unsigned int x = stoi_with_check(getInput_y);
+                unsigned int x = stoi_with_check(getInput_x);
+                unsigned int y = stoi_with_check(getInput_y);
 
                 if(0 < x and x <= BOARD_SIDE and 0 < y and y <= BOARD_SIDE) {
                     if(gameboard.at(y -1).at(x-1) == 0){
                         cout << "Already removed" << endl;;
                         continue;
                     }
-                    gameboard.at(y - 1).at(x - 1) = 0;
-                    print(gameboard);
+                    //poistaa numeron pelilaudasta, jonka jälkeen
+                    // tulostaa muuttuneen pelilaudan
+
+                    if (check_loss(gameboard,y,x) == true) {
+                        gameboard.at(y - 1).at(x - 1) = 0;
+                        if (check_island(gameboard) == true){
+                            print(gameboard);
+                            cout << "You lost" << endl;
+                            return;
+                        }
+                        print(gameboard);
+                    }
+                    else{
+                        gameboard.at(y - 1).at(x - 1) = 0;
+                        print(gameboard);
+                        cout << "You lost" << endl;
+                        return;
+                    }
                 }
                 else{
                     cout << "Out of board" << endl;
@@ -171,16 +230,19 @@ void remove_element(Gameboard& gameboard){
     }
 }
 
+
+
 int main()
 {
     Gameboard gameboard;
-
-    startSelect(gameboard);
+    //jos antaa virheellisen syötteen tai syötteeksi "q"
+    //kun kysytään käyttäjän inputtia
+    // niin lopettaa ohjelman
+    if (startSelect(gameboard) == false){
+        return 0;
+    }
     print(gameboard);
     remove_element(gameboard);
-
-
-
 
 
     return 0;
