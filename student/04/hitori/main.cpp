@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -136,6 +137,59 @@ bool check_loss(Gameboard& gameboard, int y, int x){
     return false;
 }
 
+bool transpose(Gameboard& gameboard){
+    if (gameboard.size() == 0)
+        return false;
+    Gameboard trans_vec(gameboard[0].size(), vector<int>());
+    for(unsigned int i = 0; i < gameboard.size(); i++){
+        for(unsigned int j = 0; j < gameboard[i].size(); j++){
+            trans_vec[j].push_back(gameboard[i][j]);
+        }
+    }
+    gameboard = trans_vec;
+
+    int x1, x2, x3, x4, x5;
+    std::vector< int > arr;
+    for(unsigned int i = 0; i < BOARD_SIDE; ++i){
+        x1 = count(gameboard[i].begin(), gameboard[i].end(),1);
+        x2 = count(gameboard[i].begin(), gameboard[i].end(),2);
+        x3 = count(gameboard[i].begin(), gameboard[i].end(),3);
+        x4 = count(gameboard[i].begin(), gameboard[i].end(),4);
+        x5 = count(gameboard[i].begin(), gameboard[i].end(),5);
+        if(x1 < 2 and x2 < 2 and x3 < 2 and x4 < 2 and x5 < 2){
+            arr.push_back(1);
+        } else {
+            return false;
+        }
+    }
+    if (count(arr.begin(), arr.end(), 1) == 5) {
+        return true;
+    }
+    return false;
+
+}
+
+
+bool check_rows123(Gameboard& gameboard){
+    int x1, x2, x3, x4, x5;
+    std::vector< int > arr;
+    for(unsigned int i = 0; i < BOARD_SIDE; ++i){
+        x1 = count(gameboard[i].begin(), gameboard[i].end(),1);
+        x2 = count(gameboard[i].begin(), gameboard[i].end(),2);
+        x3 = count(gameboard[i].begin(), gameboard[i].end(),3);
+        x4 = count(gameboard[i].begin(), gameboard[i].end(),4);
+        x5 = count(gameboard[i].begin(), gameboard[i].end(),5);
+        if(x1 < 2 and x2 < 2 and x3 < 2 and x4 < 2 and x5 < 2){
+            arr.push_back(1);
+        } else {
+            return false;
+        }
+    }
+    if (count(arr.begin(), arr.end(), 1) == 5) {
+        return true;
+    }
+    return false;
+}
 bool check_island(Gameboard& gameboard){
     int surr_nums;
 
@@ -173,7 +227,6 @@ bool check_island(Gameboard& gameboard){
     return false;
 }
 
-
 //poistaa pelilaudalta elementin(numeron) ja
 // tulostaa laudan uudelleen
 void remove_element(Gameboard& gameboard){
@@ -207,9 +260,15 @@ void remove_element(Gameboard& gameboard){
 
                     if (check_loss(gameboard,y,x) == true) {
                         gameboard.at(y - 1).at(x - 1) = 0;
+
                         if (check_island(gameboard) == true){
                             print(gameboard);
                             cout << "You lost" << endl;
+                            return;
+                        }
+                        if (check_rows123(gameboard) == true and transpose(gameboard) == true){
+                            print(gameboard);
+                            cout << "You won" << endl;
                             return;
                         }
                         print(gameboard);
