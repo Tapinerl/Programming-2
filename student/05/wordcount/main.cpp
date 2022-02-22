@@ -54,7 +54,7 @@ void conver_to_output(DATA_STRUCT::const_iterator iter){
     std::string key = iter ->first;
     std::set<int> row_numbers = iter ->second;
 
-    std:: cout << key << "" << row_numbers.size() << ": ";
+    std:: cout << key << " " << row_numbers.size() << ": ";
     for(std::set<int>::iterator iter = row_numbers.begin(); iter != row_numbers.end();iter++){
         std::cout << *iter;
         if((++iter) != row_numbers.end()){
