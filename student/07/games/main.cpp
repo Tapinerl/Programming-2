@@ -32,7 +32,9 @@ using GAMES = std::map<std::string, std::map<std::string, int>>;
 //merkkijonovakioita
 const std::string FILE_NOT_READ_TEXT = "Error: File could not be read.",
                   INPUT_FILE_PROMPT = "Give a name for input file: ",
-                  FILE_FORMAT_INVALID_TEXT = "Error: Invalid format in file.";
+                  FILE_FORMAT_INVALID_TEXT = "Error: Invalid format in file.",
+                  ALL_GAMES_PRINTOUT_HEADER_TEXT = "All games in alphabetical order:",
+                  ALL_PLAYER_NAMES = "All players in alphabetical order:";
 
 // Casual split func, if delim char is between "'s, ignores it.
 std::vector<std::string> split( const std::string& str, char delim = ';' )
@@ -63,9 +65,6 @@ std::vector<std::string> split( const std::string& str, char delim = ';' )
 
 bool line_is_ok(std::vector<std::string> const &line_parts){
     // vektori on kolmiosainen = ; oli tasan kaksi kpl
-
-
-
 
     // return true, kun plein ja pelaajan nimi eivät ole tyhjiä
     return line_parts.size() == 3 && !line_parts.at(0).empty() && !line_parts.at(1).empty();
@@ -112,8 +111,62 @@ bool read_file_input(GAMES &scoreboard){
 
 }
 
+// ALL_GAMES komento
+void print_all_games(GAMES const &scoreboard){
+    std::cout <<ALL_GAMES_PRINTOUT_HEADER_TEXT << std::endl;
+    for(const auto &entry : scoreboard){
+        std::cout << entry.first << std::endl;
+    }
+}
+//GAME -komento
+// ei toimi oikein
+void game_stats(GAMES &scoreboard, const std::string &game_name){
+    std::multimap<int, std::string > mp;
 
+    if(scoreboard.find(game_name) == scoreboard.end()) {
+        std::cout << "Error: Game could not be found." << std::endl;
+    }
+    else{
 
+        std::cout << "Game " << game_name << " has these scores and players, listed in ascending order:" << std::endl;
+        for (auto &score_name_pair : scoreboard[game_name]){
+            mp.insert({score_name_pair.second, score_name_pair.first});
+        }
+        std::multimap<int, std::string>::iterator it;
+        for(it = mp.begin(); it != mp.end(); it++){
+            std::cout << (*it).first << " : " << (*it).second << std::endl;
+        }
+
+    }
+}
+
+// erottaa commandille annetun toisen parametrin. Jos
+// annettussa syötteessä on lainausmerkit, niin tallentaa
+// sen oikein vektoriin
+std::vector<std::string> combineInput ( const std::vector<std::string>& string_parts ) {
+    std::string game_or_name = string_parts.at(1);
+    std::vector<std::string> input_vec;
+    if ( string_parts.size() > 2 ) {
+        size_t i = 1;
+        while ( i < string_parts.size() ) {
+            std::string current_string = string_parts.at(i);
+            if (current_string.at(0) == '"') {
+                game_or_name = current_string + " " + string_parts.at(i + 1);
+                game_or_name = game_or_name.substr(
+                            1, game_or_name.length() - 2);
+                input_vec.push_back(game_or_name);
+                ++i;
+            } else {              
+                input_vec.push_back(string_parts.at(i));
+            }
+            ++i;
+        }
+    } else {
+        // Jos osien pituus on 2 tai vähemmän
+        input_vec.push_back(game_or_name);
+    }
+    return input_vec;
+}
 int main()
 {
     //peli > pelaaja > pisteet
@@ -124,6 +177,35 @@ int main()
     if(!read_file_input(scoreboard)) {
         return EXIT_FAILURE;
     }
+
+    //käyttöliittymä
+    while(true){
+
+        std::cout << "games> ";
+        std::string input;
+        getline(std::cin, input);
+        std::vector<std::string> input_parts = split(input, ' ');
+        std::string command = input_parts.at(0);
+        transform(command.begin(), command.end(), command.begin(), ::toupper);
+
+        if(command == "QUIT"){
+            break;
+        }
+        // koska yks komento size on 1
+        // jos komennon jälkeen on useampi parametri, size on 4 jos kolme param
+        else if(command == "ALL_GAMES" && input_parts.size() == 1){
+            print_all_games(scoreboard);
+        }
+        else if(command == "GAME" && input_parts.size() == 2){
+            std::vector<std::string> lines = combineInput(input_parts);
+            game_stats(scoreboard, lines.at(0));
+        }
+        else {
+            std::cout << "Error: Invalid input." << std::endl;
+        }
+
+    }
+
     
     return EXIT_SUCCESS;
 }
