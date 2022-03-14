@@ -8,11 +8,6 @@
  * GAME <game name> - Prints all players playing the given game
  * ALL_PLAYERS - Prints all known player names
  * PLAYER <player name> - Prints all games the given player plays
- * ADD_GAME <game name> - Adds a new game
- * ADD_PLAYER <game name> <player name> <score> - Adds a new player with the
- * given score for the given game, or updates the player's score if the player
- * already playes the game
- * REMOVE_PLAYER <player name> - Removes the player from all games
  *
  *  The data file's lines should be in format game_name;player_name;score
  * Otherwise the program execution terminates instantly (but still gracefully).
@@ -34,7 +29,8 @@ const std::string FILE_NOT_READ_TEXT = "Error: File could not be read.",
                   INPUT_FILE_PROMPT = "Give a name for input file: ",
                   FILE_FORMAT_INVALID_TEXT = "Error: Invalid format in file.",
                   ALL_GAMES_PRINTOUT_HEADER_TEXT = "All games in alphabetical order:",
-                  ALL_PLAYER_NAMES = "All players in alphabetical order:";
+                  ALL_PLAYER_NAMES = "All players in alphabetical order:",
+                  PLAYER_INVALID_TEXT = "Error: Player could not be found.";
 
 // Casual split func, if delim char is between "'s, ignores it.
 std::vector<std::string> split( const std::string& str, char delim = ';' )
@@ -113,30 +109,112 @@ bool read_file_input(GAMES &scoreboard){
 
 // ALL_GAMES komento
 void print_all_games(GAMES const &scoreboard){
-    std::cout <<ALL_GAMES_PRINTOUT_HEADER_TEXT << std::endl;
+    std::cout << ALL_GAMES_PRINTOUT_HEADER_TEXT << std::endl;
     for(const auto &entry : scoreboard){
         std::cout << entry.first << std::endl;
     }
 }
-//GAME -komento
+//GAME <game name>-komento
 // ei toimi oikein
 void game_stats(GAMES &scoreboard, const std::string &game_name){
     std::multimap<int, std::string > mp;
 
+    // jos peliä ei löydy
     if(scoreboard.find(game_name) == scoreboard.end()) {
         std::cout << "Error: Game could not be found." << std::endl;
     }
+    //jos peli löytyy
     else{
 
         std::cout << "Game " << game_name << " has these scores and players, listed in ascending order:" << std::endl;
         for (auto &score_name_pair : scoreboard[game_name]){
             mp.insert({score_name_pair.second, score_name_pair.first});
         }
-        std::multimap<int, std::string>::iterator it;
-        for(it = mp.begin(); it != mp.end(); it++){
-            std::cout << (*it).first << " : " << (*it).second << std::endl;
+
+        //std::multimap<int, std::string>::iterator it;
+
+        //iteroi avaimet
+        auto it = mp.begin();
+        for(; it != mp.end(); ){
+            std::cout << it->first << " : ";
+            //itreoi samalla avaimella olevat vierekkäin
+            auto i = mp.lower_bound(it ->first);
+            for(; i != mp.upper_bound(it ->first); i++){
+                if(i != mp.lower_bound(it ->first)) {
+                    std::cout << ", " << i->second;
+                }
+                else {
+                    std::cout << i->second;
+                }
+            }
+            it = i;
+            std::cout << "\n";
+            //apuvektri.insert({(*it).first, (*it).second});
+
+            //std::cout << (*it).first << " : " << (*it).second << std::endl;
         }
 
+    }
+}
+
+
+//ALL_PLAYERS komento
+void print_all_players(GAMES const &scoreboard){
+
+    std::cout << ALL_PLAYER_NAMES << std::endl;
+    // vektoriin tallenetaan tiedoston nimet
+    std::vector<std::string> playernames;
+    // pusketaan vektoriin uniikit nimet, eli duplicaatit pois.
+    std::vector<std::string> uniqueplayernames;
+    //haetaan nimet tiedostosta ja tallennetaan vektoriin
+    for(const auto &game : scoreboard){
+        for(const auto &name : game.second){
+            playernames.push_back(name.first);
+        }
+    }
+    // poistetaan duplicaatit ja pusketaan nimet toiseen vektoriin
+    auto end = playernames.end();
+    for(auto it = playernames.begin(); it != end; ++it){
+        end = std::remove(it + 1, end, *it);
+    }
+    playernames.erase(end, playernames.end());
+    for(auto i = playernames.cbegin(); i != playernames.cend(); ++i){
+        uniqueplayernames.push_back(*i);
+    }
+    // iteroidaan vektori ja tulostetaan nimet aakkosjärjestyksessä
+    std::sort(uniqueplayernames.begin(),uniqueplayernames.end());
+    for(const auto &item : uniqueplayernames){
+        std::cout << item << std::endl;
+    }
+
+}
+// Funktio tarkistaa, löytyykö nimi jo tietorakenteesta
+bool name_in_scoreboard(GAMES &scoreboard, const std::string &player_name){
+    bool name_in_scoreboard = false;
+    for(const auto &name : scoreboard){
+        for(const auto &game : name.second){
+            if(game.first == player_name){
+                name_in_scoreboard = true;
+            }
+        }
+    }
+    return name_in_scoreboard;
+}
+// komento PLAYER <pelaaja>, tulostaa allekkain ne pelit, joita annettu pelaaja pelaa.
+void player(GAMES &scoreboard, const std::string &player_name){
+
+    if (name_in_scoreboard(scoreboard, player_name)) {
+        std::cout << "Player " << player_name << " playes the following games:" << std::endl;
+        for(const auto& name : scoreboard){
+            for(const auto& game : name.second){
+                if(game.first == player_name){
+                    std::cout << name.first << std::endl;
+                }
+            }
+        }
+    }
+    else {
+        std::cout << PLAYER_INVALID_TEXT << std::endl;
     }
 }
 
@@ -156,7 +234,7 @@ std::vector<std::string> combineInput ( const std::vector<std::string>& string_p
                             1, game_or_name.length() - 2);
                 input_vec.push_back(game_or_name);
                 ++i;
-            } else {              
+            } else {
                 input_vec.push_back(string_parts.at(i));
             }
             ++i;
@@ -196,9 +274,18 @@ int main()
         else if(command == "ALL_GAMES" && input_parts.size() == 1){
             print_all_games(scoreboard);
         }
-        else if(command == "GAME" && input_parts.size() == 2){
+        else if((command == "GAME" && input_parts.size() == 2)
+                or (command == "GAME" && input_parts.size() == 3)){
             std::vector<std::string> lines = combineInput(input_parts);
             game_stats(scoreboard, lines.at(0));
+        }
+        else if(command == "ALL_PLAYERS" && input_parts.size() == 1){
+            print_all_players(scoreboard);
+        }
+        else if(command == "PLAYER" && input_parts.size() == 2){
+            std::vector<std::string> lines = combineInput(input_parts);
+            player(scoreboard, lines.at(0));
+
         }
         else {
             std::cout << "Error: Invalid input." << std::endl;
@@ -206,6 +293,6 @@ int main()
 
     }
 
-    
+
     return EXIT_SUCCESS;
 }
