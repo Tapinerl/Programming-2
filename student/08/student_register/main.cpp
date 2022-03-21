@@ -96,16 +96,15 @@ void modifyStudentNumber(Student *s){
     std::getline(std::cin, new_number);
 
 
-    if(!is_valid_phone_number(new_number)){
-        std::cout << "Erroneous phone number: " << new_number << std::endl;
+    if(is_valid_phone_number(new_number)){
+        s->phone_number = new_number;
 
-        return;
     }
-    s->phone_number = new_number;
+
 }
 
-void saveData(std::map<std::string, Student*> const &user_ids){
-    std::ofstream file("data.txt");
+void saveData(std::map<std::string, Student*> const &user_ids, std::string const &filename){
+    std::ofstream file(filename);
 
     if(!file){
         std::cout << "File not found" << std::endl;
@@ -113,13 +112,13 @@ void saveData(std::map<std::string, Student*> const &user_ids){
 
     for(std::pair<std::string, Student*> p : user_ids){
         Student* student = p.second;
-        std::string line = student ->student_number + ";"
-                            +student->user_id + ";"
-                            +student->name + ";"
-                            +student->phone_number + ";"
-                            +student->email + ";"
-                            +student->skype;
-        file << line << std::endl;
+        file << student ->student_number << ";"
+             << student->user_id << ";"
+             << student->name << ";"
+             << student->phone_number << ";"
+             << student->email << ";"
+             << student->skype << std::endl;
+
     }
     file.close();
 }
@@ -186,10 +185,12 @@ int main() {
                 continue;
             }
             modifyStudentNumber(student_numbers.at(student_number));
+            saveData(user_ids, file_name);
+            std::cout << std::endl;
 
 
         } else if(command == "Q" or command == "q") {
-            saveData(user_ids);
+
             // Deleting the data structure: deallocating memory
             // and nullifying pointers
             for(auto pair: student_numbers) {
