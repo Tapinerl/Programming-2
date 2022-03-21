@@ -97,6 +97,7 @@ void modifyStudentNumber(Student *s){
 
 
     if(is_valid_phone_number(new_number)){
+        std::cout << std::endl;
         s->phone_number = new_number;
 
     }
