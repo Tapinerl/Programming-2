@@ -84,7 +84,7 @@ bool is_valid_phone_number(const std::string number) {
             std::cout << std::endl;
             std::cout << "Erroneous phone number: "
                       << number
-                      << std::endl << std::endl;
+                      << std::endl;
             return false;
         }
     }
