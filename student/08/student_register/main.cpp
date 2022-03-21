@@ -169,6 +169,7 @@ int main() {
                 for(auto pair: student_numbers) {
                     print_data(*(pair.second));
                 }
+
             }
 
             // Changing student data
