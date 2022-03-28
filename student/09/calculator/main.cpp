@@ -10,7 +10,7 @@ using namespace std;
 const string GREETING_AT_END = "Thanks and see you later!",
              PARAM_NUMBER_ERROR = "Error: wrong number of parameters.",
              NON_NUMBER_OPERAND_ERROR = "Error: a non-number operand.",
-             UNKNOWN_COMMAND_ERROR = "Error: unknown comman.",
+             UNKNOWN_COMMAND_ERROR = "Error: unknown command.",
              EXIT_MESSAGE = "Thanks and see you later!";
 
 // Utility function to sections a string at delimiters
