@@ -7,7 +7,11 @@
 
 using namespace std;
 
-const string GREETING_AT_END = "Thanks and see you later!";
+const string GREETING_AT_END = "Thanks and see you later!",
+             PARAM_NUMBER_ERROR = "Error: wrong number of parameters.",
+             NON_NUMBER_OPERAND_ERROR = "Error: a non-number operand.",
+             UNKNOWN_COMMAND_ERROR = "Error: unknown comman.",
+             EXIT_MESSAGE = "Thanks and see you later!";
 
 // Utility function to sections a string at delimiters
 vector< string > split(const string& s,
@@ -54,12 +58,22 @@ const vector<Command> COMMANDS = {
     {"DECREASE", 2, false, subtraction},
     {"MULTIPLY", 2, false, multiplication},
     {"DIVIDE", 2, false, division},
+    {"EXP", 2, false, exponent},
+    {"POWER", 2, false, exponent},
+    {"^", 2, false, exponent},
     {"STOP", 0, true, nullptr},
     {"QUIT", 0, true, nullptr},
     {"EXIT", 0, true, nullptr},
     {"Q", 0, true, nullptr}
 };
 
+std::string str2upper(std::string const &str){
+    std::string caps = str;
+    for(int i = 0; i < str.length(); i++){
+        caps.at(i) = toupper(str.at(i));
+    }
+    return caps;
+}
 
 int main() {
 
@@ -89,6 +103,38 @@ int main() {
 
         // TODO: Implement command execution here!
 
+        std::vector<Command>::const_iterator commands_iter = COMMANDS.begin();
+        bool command_found = false;
+
+        while(commands_iter != COMMANDS.end()){
+            std::string command_name = commands_iter->str;
+            if(str2upper(command_to_be_executed) == command_name){
+                command_found = true;
+
+                if(pieces.size() - 1 != commands_iter->parameter_number){
+                    std::cout << PARAM_NUMBER_ERROR << std::endl;
+                    break;
+                }
+                if(commands_iter->is_exit){
+                    std::cout << EXIT_MESSAGE << std::endl;
+                    return EXIT_SUCCESS;
+                }
+
+                double param1, param2;
+                if(!string_to_double(pieces.at(1), param1)
+                 or !string_to_double(pieces.at(2), param2)){
+                    std::cout << NON_NUMBER_OPERAND_ERROR << std::endl;
+                    break;
+                }
+
+                std::cout << commands_iter->action(param1, param2) << std::endl;
+            }
+            commands_iter++;
+        }
+
+        if(!command_found){
+            std::cout << UNKNOWN_COMMAND_ERROR << std::endl;
+        }
     }
 }
 
