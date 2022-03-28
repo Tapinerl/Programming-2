@@ -5,7 +5,7 @@ int greatest_v1(int *itemptr, int size)
     int greatest = *itemptr;
 
     for (int i = 0; i < size; i++){
-        int current = *(itemptr + 1);
+        int current = *(itemptr + i);
         if ( current > greatest){
             greatest= current;
         }
