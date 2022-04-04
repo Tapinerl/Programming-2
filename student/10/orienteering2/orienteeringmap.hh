@@ -14,12 +14,13 @@
 #ifndef ORIENTEERINGMAP_HH
 #define ORIENTEERINGMAP_HH
 
-
-
+#include "point.hh"
 #include <string>
 #include <set>
 #include <map>
 #include <vector>
+
+
 
 class OrienteeringMap
 {
@@ -69,13 +70,11 @@ public:
 
 private:
 
-    int x;
-    int y;
+    int x_;
+    int y_;
 
-
-
-
-
+    std::map<std::string, Point *> points_;
+    std::map<std::string, std::vector<std::string>> route_;
     // Add here attributes and private methods.
     // At least you need a datastructure for points or routes or for both,
     // containing Point* or Route* objects (pointers).
