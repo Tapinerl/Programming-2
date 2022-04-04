@@ -3,9 +3,7 @@
 
 Point::Point(std::string name, int x, int y, int height, char marker) :
              name_(name), Getx_(x), Gety_(y), height_(height), marker_(marker)
-{
-
-}
+{}
 
 std::string Point::name() const
 {

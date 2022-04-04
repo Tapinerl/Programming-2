@@ -1,8 +1,8 @@
 #include "orienteeringmap.hh"
 #include <iostream>
-#include <cmath>
-#include <algorithm>
 #include "point.hh"
+
+using namespace std;
 
 OrienteeringMap::OrienteeringMap()
 {
@@ -12,21 +12,22 @@ OrienteeringMap::~OrienteeringMap()
 {
 
 }
-
+// Asettaa kartan koon
 void OrienteeringMap::set_map_size(int width, int height)
 {
     this->x_ = width;
     this->y_ = height;
 }
-
-void OrienteeringMap::add_point(std::string name, int x, int y, int height, char marker)
+// tekee uuden rastin saaduilla tiedoilla ja lisää ne karttaan
+void OrienteeringMap::add_point(string name, int x, int y, int height, char marker)
 {
     Point* point = new Point({name, x, y, height, marker});
     points_.insert({name, point});
 
 }
 
-bool OrienteeringMap::connect_route(std::string from, std::string to, std::string route_name)
+// Puskee reittien nimet ja niiden polut tietorakenteeseen
+bool OrienteeringMap::connect_route(string from, string to, string route_name)
 {
     if(points_.find(from) == points_.end() || points_.find(to) == points_.end())
     {
@@ -44,12 +45,48 @@ bool OrienteeringMap::connect_route(std::string from, std::string to, std::strin
         }
         return true;
     }
-
 }
 
+// Käyttöliittymän MAP -komennolle.
+// Tulostaa matriisin näkyisen kartan rasteille
 void OrienteeringMap::print_map() const
 {
-    return;
+    cout << " ";
+    for(int x = 1; x <= x_; x++)
+    {
+        cout <<  setw(3) << x;
+    }
+    cout << "\n";
+
+    for(int y = 1; y <= y_; y++)
+    {
+        cout << setw(2) << y << "  ";
+        for(int x = 1; x <= x_; x++)
+        {
+            bool find_pt = false;
+
+            for(auto const& point : points_)
+            {
+                if(x == point.second->x() && y == point.second->y())
+                {
+                    find_pt = true;
+                    cout << point.second->marker();
+                }
+            }
+            if(find_pt == false)
+            {
+                cout << ".";
+            }
+            if(x < x_)
+            {
+                cout << "  ";
+            }
+            if(x == x_)
+            {
+                cout << "\n";
+            }
+        }
+    }
 }
 
 void OrienteeringMap::print_routes() const
