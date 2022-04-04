@@ -156,11 +156,21 @@ void OrienteeringMap::print_route(const string &name) const
 
 void OrienteeringMap::route_length(const std::string &name) const
 {
+    if(route_.find(name) == route_.end())
+    {
+        cout << "Error: Route named " << name
+                  <<  " can't be found" << endl;
+    }
     return;
 }
 
 void OrienteeringMap::greatest_rise(const std::string &point_name) const
 {
+    if(route_.find(point_name) == route_.end())
+    {
+        cout << "Error: Route named " << point_name
+                  <<  " can't be found" << endl;
+    }
     return;
 }
 
