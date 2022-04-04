@@ -14,4 +14,7 @@ HEADERS += \
     orienteeringmap.hh \
     parser.hh
 
+DISTFILES += \
+    points
+
 

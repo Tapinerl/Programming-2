@@ -14,7 +14,12 @@
 #ifndef ORIENTEERINGMAP_HH
 #define ORIENTEERINGMAP_HH
 
+
+
 #include <string>
+#include <set>
+#include <map>
+#include <vector>
 
 class OrienteeringMap
 {
@@ -63,6 +68,14 @@ public:
     void greatest_rise(const std::string& point_name) const;
 
 private:
+
+    int x;
+    int y;
+
+
+
+
+
     // Add here attributes and private methods.
     // At least you need a datastructure for points or routes or for both,
     // containing Point* or Route* objects (pointers).
