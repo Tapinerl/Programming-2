@@ -14,12 +14,14 @@
 #ifndef ORIENTEERINGMAP_HH
 #define ORIENTEERINGMAP_HH
 
-#include "point.hh"
 #include <string>
 #include <map>
 #include <vector>
 #include <iomanip>
+#include "point.hh"
 
+// forward declaration, ei toimi
+//class Point;
 
 class OrienteeringMap
 {
