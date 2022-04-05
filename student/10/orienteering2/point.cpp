@@ -1,9 +1,9 @@
 
-/*  COMP.CS.100 Project 3: Orienteering
+/*  COMP.CS.110 Project 3: Orienteering
  *
- * class : point
+ * point.cpp
  *
- *
+ * Ei sen kummallisempaa tässä
  *
  * Ohjelman kirjoittaja ( Täytä omilla tiedoillasi )
  * Nimi: Elias Nikkinen

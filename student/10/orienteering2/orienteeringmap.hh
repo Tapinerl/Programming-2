@@ -20,8 +20,6 @@
 #include <iomanip>
 #include "point.hh"
 
-// forward declaration, ei toimi
-//class Point;
 
 class OrienteeringMap
 {

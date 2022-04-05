@@ -1,18 +1,21 @@
-/*
- *
-#############################################################################
-# COMP.CS.110 Ohjelmointi 2: Rakenteet / Programming 2: Structures          #
-# Project3: Suunnistus / Orienteering                                       #
-# File: orienteeringmap.cpp                                                         #
-# Description: Module that parses the input file into an OrienteeringMap    #
-#        object.                                                            #
-# Notes: * This is a part of an exercise program.                           #
-#        * Student's don't touch this file.                                 #
-#        * Understanding how the module works isn't necessary to complete   #
-#          this exercise.                                                   #
-#############################################################################
-*/
 
+/*  COMP.CS.110 Project 3: Orienteering
+ *
+ * orienteeringmap.cpp
+ *
+ * Ohjelma lukee syötetidostosta tietoja joihin kuuluu
+ * kartan koko, rasti kartalla (ja sen koordinaatit)
+ * ja polut.
+ * Eli ohjelmalla on erilaisia reittejä joihin kuuluu
+ * erilaisia polkuja.
+ *
+ * Ohjelman kirjoittaja ( Täytä omilla tiedoillasi )
+ * Nimi: Elias Nikkinen
+ * Opiskelijanumero: 50497168
+ * Käyttäjätunnus: shelni
+ * E-Mail: elias.nikkinen@tuni.fi
+ *
+ * */
 #include "orienteeringmap.hh"
 #include <iostream>
 using namespace std;
@@ -113,6 +116,7 @@ void OrienteeringMap::print_map() const
     }
 }
 // Käyttöliittymän ROUTES -komennolle
+// Tulostaa reittien nimet
 void OrienteeringMap::print_routes() const
 {
     cout << "Routes:" << endl;
@@ -124,7 +128,8 @@ void OrienteeringMap::print_routes() const
     }
 
 }
-// Käyttöliittymän points -komennolle
+// Käyttöliittymän POINTS -komennolle
+// Tulostaa rastit
 void OrienteeringMap::print_points() const
 {
     cout << "Points:" << endl;
@@ -137,6 +142,7 @@ void OrienteeringMap::print_points() const
 
 }
 // käyttöliittymän ROUTE <input> -komennolle
+// Tulostaa kysytyn reitin polun
 void OrienteeringMap::print_route(const string &name) const
 {
     if(route_.find(name) == route_.end())
