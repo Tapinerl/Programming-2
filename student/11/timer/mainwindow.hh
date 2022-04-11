@@ -23,10 +23,16 @@ public:
 
 private slots:
     // Add your slots here
+    void startTimer();
+    void stopTimer();
+    void resetTimer();
+    void closeTimer();
+    void updateLcd();
 
 private:
     Ui::MainWindow *ui;
     // Add other necessary members here
+    int time = 0;
 };
 
 #endif // MAINWINDOW_HH
