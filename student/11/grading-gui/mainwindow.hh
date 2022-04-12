@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 
 private slots:
+
     void on_countPushButton_clicked();
 
 private:
