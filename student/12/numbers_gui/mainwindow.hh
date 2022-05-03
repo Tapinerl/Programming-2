@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
-#include <QMainWindow>
+/*#include <QMainWindow>
 #include "gameboard.hh"
 #include "numbertile.hh"
 #include <vector>
@@ -9,8 +9,24 @@
 #include <QGraphicsTextItem>
 #include <random>
 #include <string>
-#include <iostream>
+#include <iostream>*/
 
+#include <QMainWindow>
+#include "gameboard.hh"
+#include "numbertile.hh"
+#include <QGraphicsRectItem>
+#include <QGraphicsScene>
+#include <QTimer>
+#include <vector>
+#include <QPoint>
+#include <QLabel>
+#include <QString>
+#include <QKeyEvent>
+#include <QGraphicsTextItem>
+#include <QLabel>
+#include <QDebug>
+#include <random>
+#include <QFont>
 
 const int TILESIZE = 80;
 const Coords LEFT = {0, -1};
@@ -34,9 +50,18 @@ public:
     void action();
     void keyPressEvent(QKeyEvent* key);
     void configure();
+    void hide_labels();
+    void win_condition();
+    void lose_condition();
+    void enable_stuff();
+    void disable_stuff();
+    void set_target();
 
 private slots:
-    void on_startPushButton_clicked();
+    void on_StartpushButton_clicked();
+    void on_ExitpushButton_clicked();
+    void on_RestartpushButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;

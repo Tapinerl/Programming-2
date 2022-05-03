@@ -125,3 +125,7 @@ bool GameBoard::is_full() const
     }
     return true;
 }
+void GameBoard::reset_gameboard()
+{
+    board_.clear();
+}
