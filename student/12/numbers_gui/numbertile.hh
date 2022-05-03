@@ -1,3 +1,14 @@
+/*  COMP.CS.110 Project: Numbers_gui
+ *
+ * Tiedot yhdestä laatasta
+ *
+ * Ohjelman kirjoittaja ( Täytä omilla tiedoillasi )
+ * Nimi: Elias Nikkinen
+ * Opiskelijanumero: 50497168
+ * Käyttäjätunnus: shelni
+ * E-Mail: elias.nikkinen@tuni.fi
+ *
+ * */
 #ifndef NUMBERTILE_HH
 #define NUMBERTILE_HH
 

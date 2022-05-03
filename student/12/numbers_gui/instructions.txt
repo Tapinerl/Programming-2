@@ -1,0 +1,33 @@
+COMP.CS.110 Project: Numbers_gui
+
+Ohjelman kirjoittaja ( Täytä omilla tiedoillasi )
+Nimi: Elias Nikkinen
+Opiskelijanumero: 50497168
+Käyttäjätunnus: shelni
+E-Mail: elias.nikkinen@tuni.fi
+
+Pelin ohjeet:
+ -Sinun tarvitsee vain siirtää laattoja ja joka kerta, kun laattoja siirretään,
+  toinen laatta ponnahtaa esille satunnaisesti. Kun kaksi laattaa, joilla on sama
+  numero törmäävät toisiinsa niitä siirrettäessä, ne sulautuvat yhdeksi laataksi
+  johon on kirjoitettu niiden lukujen summa.
+
+Suorittamalla ohjelman, pelin saa aloitettua painamalla Start game -nappulaa.
+Ennen itse pelin aloittamista, voit säätää peliä himeman: Enter a seed -kohdasta
+peli kysyy siemenlukua, jolloin saadaan aloitettua peli esim. samoilla laatoilla,
+muuten peli generoituu satunnaisesti. Enter a target goal -kohdasta voit ilmoittaa
+tavoiteluvun, johon haluat päästä. Jos luku jätetään syöttämättä käytetään lukua 2048.
+Restart -komento aloittaa pelin uudelleen ja tyhjentää pelilaudan. (Pitää painaa siis
+Restart, jonka jälkeen Start game.) Exit nappulaa painaessa ohjelma sulkeutuu.
+Käyttöliittymä on suunniteltu niin, että aloittamalla pelin kutsutaan configure() metodia.
+Metodi luo ruuduille, joilla on jokin arvo, sen numeron ja värin.
+
+
+LISÄOMINAISUUDET:
+- Eri luvuilla on eri värit. Värit ovat säädetty rgb arvoilla.
+
+- Pelissä on pause -nappula, jolla saa ajanoton pysäytettyä ja peli lakkaa vastaamasta
+käyttäjän näppäinkomentoihin.
+
+- Pelissä on ajastin, joka kertoo siihen käytetyn ajan. Käyttöliittymän oikeassa ylänurkassa
+(sekunteina).

@@ -1,34 +1,32 @@
+/*  COMP.CS.110 Project: Numbers_gui
+ *
+ * Pääikkuna missä on ohjelman graafiset komponentit  ja toiminnot
+ * Lisää pelistä osoitteessa instruction.txt
+ *
+ * Ohjelman kirjoittaja ( Täytä omilla tiedoillasi )
+ * Nimi: Elias Nikkinen
+ * Opiskelijanumero: 50497168
+ * Käyttäjätunnus: shelni
+ * E-Mail: elias.nikkinen@tuni.fi
+ *
+ * */
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
-
-/*#include <QMainWindow>
-#include "gameboard.hh"
-#include "numbertile.hh"
-#include <vector>
-#include <QKeyEvent>
-#include <QGraphicsTextItem>
-#include <random>
-#include <string>
-#include <iostream>*/
 
 #include <QMainWindow>
 #include "gameboard.hh"
 #include "numbertile.hh"
-#include <QGraphicsRectItem>
-#include <QGraphicsScene>
-#include <QTimer>
 #include <vector>
+#include <random>
+#include <string>
+#include <QKeyEvent>
+#include <QFont>
+#include <QGraphicsTextItem>
 #include <QPoint>
 #include <QLabel>
-#include <QString>
-#include <QKeyEvent>
-#include <QGraphicsTextItem>
-#include <QLabel>
-#include <QDebug>
-#include <random>
-#include <QFont>
+#include <QTimer>
 
-const int TILESIZE = 80;
+const int TILESIZE = 100;
 const Coords LEFT = {0, -1};
 const Coords UP = {-1, 0};
 const Coords RIGHT = {0, 1};
@@ -56,11 +54,14 @@ public:
     void enable_stuff();
     void disable_stuff();
     void set_target();
+    void timer_clear();
+    void time_counter();
 
 private slots:
     void on_StartpushButton_clicked();
     void on_ExitpushButton_clicked();
     void on_RestartpushButton_clicked();
+    void on_GamepausepushButton_clicked();
 
 
 private:
@@ -70,26 +71,30 @@ private:
     int target;
     bool game_running;
     bool ignore_cmds;
+    QTimer* timer;
 
     struct Item {
         int number;
         const QString marker;
+
+        QColor color;
     };
-    const std::vector<Item> Items =
+    std::vector<Item> Items =
     {
-    {2,QString::number(2)},
-    {4,QString::number(4)},
-    {8,QString::number(8)},
-    {16,QString::number(16)},
-    {32,QString::number(32)},
-    {64,QString::number(64)},
-    {128,QString::number(128)},
-    {256,QString::number(256)},
-    {512,QString::number(512)},
-    {1024,QString::number(1024)},
-    {2048,QString::number(2048)},
-    {0,""}
+        {2,QString::number(2),QColor(255, 235, 235)},
+        {4,QString::number(4),QColor(255, 204, 204)},
+        {8,QString::number(8),QColor(255, 133, 133)},
+        {16,QString::number(16),QColor(255, 61, 61)},
+        {32,QString::number(32),QColor(255, 15, 15)},
+        {64,QString::number(64),QColor(189, 194, 255)},
+        {128,QString::number(128),QColor(140, 150, 255)},
+        {256,QString::number(256),QColor(84, 98, 255)},
+        {512,QString::number(512),QColor(38, 56, 255)},
+        {1024,QString::number(1024),QColor(0, 13, 150)},
+        {2048,QString::number(2048),QColor(208, 0, 255)},
+        {0,"",QColor(255,255,255)}
     };
+    QColor fill = QColor(0, 0, 0);
 
     Item find_item(int item);
 };

@@ -1,3 +1,12 @@
+/*  COMP.CS.110 Project: Numbers_gui
+ *
+ * Ohjelman kirjoittaja ( Täytä omilla tiedoillasi )
+ * Nimi: Elias Nikkinen
+ * Opiskelijanumero: 50497168
+ * Käyttäjätunnus: shelni
+ * E-Mail: elias.nikkinen@tuni.fi
+ *
+ * */
 #ifndef GAMEBOARD_HH
 #define GAMEBOARD_HH
 
