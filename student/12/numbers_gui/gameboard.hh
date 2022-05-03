@@ -1,4 +1,4 @@
-
+#ifndef GAMEBOARD_HH
 #define GAMEBOARD_HH
 
 #include "numbertile.hh"
