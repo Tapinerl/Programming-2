@@ -265,4 +265,5 @@ MainWindow::Item MainWindow::find_item(int item)
            return x;
         }
     }
+    return Items.at(0);
 }
